@@ -1,6 +1,6 @@
 from os import path
 from random import randint
-from typing import List
+from typing import List, Optional
 
 from numpy import zeros
 
@@ -229,7 +229,7 @@ class Manager(object):
     """
     This class manages a game round.
     """
-    game_round: GameRound
+    game_round: Optional[GameRound]
 
     def __init__(self):
         """
