@@ -66,7 +66,7 @@ class Games(commands.Cog):
         await ctx.send(result)
 
     @commands.command()
-    async def roulette(self, ctx: commands.Context, arg):
+    async def roulette(self, ctx: commands.Context, *args):
         """
         Play russian roulette.
         Use 'new' to start a new round.
@@ -75,16 +75,17 @@ class Games(commands.Cog):
         :return: The result of the game.
         """
         server_hash: int = hash(ctx.guild)
-        if arg == "new" or not self.roulette_server_dict.__contains__(server_hash):
+        if args.__contains__("new") or not self.roulette_server_dict.__contains__(server_hash):
             self.roulette_server_dict[server_hash] = RussianRoulette()
+            await ctx.send("Created a new round of russian roulette. Use !roulette to play.")
         else:
             author: User = ctx.author
             message: str = "The trigger is pulled and " + author.mention
             roulette: RussianRoulette = self.roulette_server_dict.get(server_hash)
             if roulette.pull():
-                message += " is killed!."
+                message += " is killed!"
             else:
-                message *= " lives!"
+                message += " lives!"
             await ctx.send(message)
 
 
