@@ -1,2 +1,4 @@
 # Bot_Anders
-A discord bot 
+
+A simple discord bot.
+For a list of commands use the !help command.
