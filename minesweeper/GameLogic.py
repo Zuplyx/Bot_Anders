@@ -243,7 +243,6 @@ class Manager(object):
         :param message: message to parse
         :return: result from game round or error
         """
-        print(message)
         if self.game_round is not None and self.game_round.ended:
             self.game_round = None  # reset after the game is over
         if message[:6] == "reveal":
@@ -259,7 +258,7 @@ class Manager(object):
                 except IndexError:
                     return "Error: Value for x or y is out of bounds."
             else:
-                return "Please use 'new' to start a round of minesweeper first."
+                return "Error: No game is defined. Please use 'new' to start a round of minesweeper first."
         elif message[:4] == "flag":
             if self.game_round is not None:
                 index = message.find(",", 4)
@@ -273,7 +272,7 @@ class Manager(object):
                 except IndexError:
                     return "Error: Value for x or y is out of bounds."
             else:
-                return "Please use 'new' to start a round of minesweeper first."
+                return "Error: No game is defined. Please use 'new' to start a round of minesweeper first."
         elif message[:3] == "new":
             if message[4:8] == "easy":
                 self.game_round = GameRound(8, 8, 10)
@@ -305,11 +304,15 @@ class Manager(object):
                 self.game_round = GameRound(width, height, mine_count)
                 return self.game_round.print_empty()
         elif message[:4] == "help":
-            filename = "help.txt"
-            basepath = path.dirname(__file__)
-            filepath = path.abspath(path.join(basepath, "..", "minesweeper", filename))
-            with open(filepath, "r") as help_txt:
-                lines = help_txt.readlines()
-            return "".join(lines)
+            return send_help()
         else:
-            return "Unrecognized command. Use 'help' for a list of commands."
+            return "Error: Unrecognized command. Use 'help' for a list of commands."
+
+
+def send_help() -> str:
+    filename = "help.txt"
+    basepath = path.dirname(__file__)
+    filepath = path.abspath(path.join(basepath, "..", "minesweeper", filename))
+    with open(filepath, "r") as help_txt:
+        lines = help_txt.readlines()
+    return "".join(lines)
