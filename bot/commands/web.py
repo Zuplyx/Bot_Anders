@@ -1,5 +1,9 @@
+from datetime import datetime
+
 from discord.ext import commands
-from strawpoll import API, Poll, ExistingPoll, HTTPException, StrawpollException
+from strawpoll import Poll, ExistingPoll, HTTPException, StrawpollException
+
+import bot.strawpoll_api.api
 
 
 class Web(commands.Cog):
@@ -24,29 +28,34 @@ class Web(commands.Cog):
             #  check if there are enough arguments
             await ctx.send("Please specify at least a title and two options.")
             return
-        api: API = API()
+        if args.__len__() > 30:
+            # check if there are too many arguments
+            await ctx.send("Too many options. Only 30 are allowed.")
+            return
+        api: bot.strawpoll_api.api.API = bot.strawpoll_api.api.API()  # use the fixed version provided by this
+        # project
         poll: Poll = Poll(args[0], args[1:])
         try:
             poll = await api.submit_poll(poll=poll)
-            # If this fails with a type error, this is most probably because strawpoll,py does not yet (April 2019) use
-            # https which is required by strawpoll.me since February 2018. For a fix use this commit:
-            # https://github.com/PapyrusThePlant/strawpoll.py/pull/5
-            # TODO: Include a fixed api.py in this project, so that this error does not happen.
         except StrawpollException as se:
             if isinstance(se, ExistingPoll):
                 await ctx.send("Error: This poll already exists.")
             elif isinstance(se, HTTPException):
-                await ctx.send("HTTP Error " + se.code + ": " + se.text)
+                name: str = "strawpoll_http_error.txt"
+                with open(file=name, mode="w+", encoding='utf-8') as error_dump:
+                    info: str = datetime.now().strftime("%m/%d/%Y, %H:%M:%S") + "\n"
+                    error_dump.writelines(info)
+                    error_dump.writelines(se.args)
+                    error_dump.close()
+                await ctx.send("HTTP Error. An error report has been saved in " + name)
             else:
-                await ctx.send("An error occurred:\n" + se.__str__())
-            return
-        except TypeError as te:
-            await ctx.send("Type Error. This most likely happened because of using a version of strawpoll.py which "
-                           "does not use https. Please tell the person hosting this bot to take a look at "
-                           "https://github.com/PapyrusThePlant/strawpoll.py/pull/5")
-            print(te)
-            print("Type Error. This most likely happened because of using a version of strawpoll.py which "
-                  "does not use https. Please take a look at https://github.com/PapyrusThePlant/strawpoll.py/pull/5")
+                name: str = "strawpoll_error.txt"
+                with open(file=name, mode="w+", encoding='utf-8') as error_dump:
+                    info: str = datetime.now().strftime("%m/%d/%Y, %H:%M:%S") + "\n"
+                    error_dump.writelines(info)
+                    error_dump.writelines(se.__str__())
+                    error_dump.close()
+                await ctx.send("An error occurred. An error report has been saved in " + name)
             return
         await ctx.send("Here is your poll:\n" + poll.url)
 
