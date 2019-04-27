@@ -5,7 +5,7 @@ from minesweeper.GameLogic import send_help
 
 # global variables
 with open("discord_token.txt") as token_file:
-    token = token_file.readline()
+    token = token_file.readline()  # get the token
 description: str = " A simple bot with a variety of commands."
 bot_anders = commands.Bot(command_prefix='!', description=description)
 cogs = ['commands.games', 'commands.random', 'commands.web']
