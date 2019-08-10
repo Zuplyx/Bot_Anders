@@ -58,7 +58,14 @@ class Web(commands.Cog):
             return
         await ctx.send("Here is your poll:\n" + poll.url)
 
+    @commands.command()
+    async def github(self, ctx: commands.Context):
+        """
+        Sends a link to the bots github page.
+        """
+        await ctx.send("You can read and contribute to my source code on Github:\n"
+                       "https://github.com/PatrickSchmitt98/Bot_Anders")
 
-def setup(bot):
+
+def setup(bot):  # Adds the web commands to the bot
     bot.add_cog(Web(bot))
-    # Adds the web commands to the bot
