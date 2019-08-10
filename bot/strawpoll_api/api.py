@@ -3,7 +3,7 @@
 :license: MIT, see LICENSE for more details.
 github: https://github.com/PapyrusThePlant/strawpoll.py
 
-The version used here is based on the following commit, which unfortunately has not been merged yet:
+The version used here is based on the following pull request, which unfortunately has not been merged yet:
 https://github.com/PapyrusThePlant/strawpoll.py/pull/5
 """
 
@@ -26,7 +26,7 @@ class API:
     _BASE_API = _BASE_URL + '/api/v2'
     _POLLS = _BASE_API + '/polls'
 
-    _url_re = re.compile('^{}\/(?P<id>[0-9]+)(/r)?$'.format(_BASE_URL.replace('/', '\/')))
+    _url_re = re.compile('^{}/(?P<id>[0-9]+)(/r)?$'.format(_BASE_URL.replace('/', '\/')))
 
     def __init__(self, *, loop=None, requests_policy=RequestsPolicy.asynchronous):
         self.loop = loop if loop is not None else asyncio.get_event_loop()
