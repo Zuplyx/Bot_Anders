@@ -67,6 +67,10 @@ class Games(commands.Cog):
         result: str = "```" + current_manager.parse_input(" ".join(args)) + "```"
         await ctx.send(result)
 
+    @staticmethod
+    def start_new_round() -> (str, RussianRoulette):
+        return "Created a new round of russian roulette. Use !roulette to play.", RussianRoulette()
+
     @commands.command()
     async def roulette(self, ctx: commands.Context, *args):
         """
@@ -79,22 +83,23 @@ class Games(commands.Cog):
         if isinstance(ctx.channel, DMChannel):
             await ctx.send("Roulette can only be played on servers or in group chats.")
             return
-        elif isinstance(ctx.channel, GroupChannel):
-            group_hash: int = hash(ctx.channel)
-            if args.__contains__("new") or not self.roulette_group_dict.__contains__(group_hash):
-                self.roulette_group_dict[group_hash] = RussianRoulette()
-                await ctx.send("Created a new round of russian roulette. Use !roulette to play.")
-                return
+        group: bool = isinstance(ctx.channel, GroupChannel)
+        hash_code: int = hash(ctx.channel)
+        if args.__contains__("new") or (group and not self.roulette_group_dict.__contains__(hash_code)) \
+                or (not group and not self.roulette_server_dict.__contains__(hash_code)):
+            # We have to start a new round.
+            new_round: (str, RussianRoulette) = Games.start_new_round()
+            await ctx.send(new_round[0])
+            if group:
+                self.roulette_group_dict[hash_code] = new_round[1]
             else:
-                roulette: RussianRoulette = self.roulette_group_dict.get(group_hash)
+                self.roulette_server_dict[hash_code] = new_round[1]
+            return
         else:
-            server_hash: int = hash(ctx.guild)
-            if args.__contains__("new") or not self.roulette_server_dict.__contains__(server_hash):
-                self.roulette_server_dict[server_hash] = RussianRoulette()
-                await ctx.send("Created a new round of russian roulette. Use !roulette to play.")
-                return
+            if group:
+                roulette: RussianRoulette = self.roulette_group_dict.get(hash_code)
             else:
-                roulette: RussianRoulette = self.roulette_server_dict.get(server_hash)
+                roulette: RussianRoulette = self.roulette_server_dict.get(hash_code)
         author: User = ctx.author
         message: str = "The trigger is pulled and " + author.mention
         if roulette.pull():
