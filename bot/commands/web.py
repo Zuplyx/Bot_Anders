@@ -46,7 +46,7 @@ class Web(commands.Cog):
                     error_dump.writelines(info)
                     error_dump.writelines(se.args)
                     error_dump.close()
-                await ctx.send("HTTP Error. An error report has been saved in " + name)
+                await ctx.send("A HTTP Error occurred. Please try again later.")
             else:
                 name: str = "strawpoll_error.txt"
                 with open(file=name, mode="w+", encoding='utf-8') as error_dump:
@@ -54,7 +54,7 @@ class Web(commands.Cog):
                     error_dump.writelines(info)
                     error_dump.writelines(se.__str__())
                     error_dump.close()
-                await ctx.send("An error occurred. An error report has been saved in " + name)
+                await ctx.send("An error occurred. Please try again later.")
             return
         await ctx.send("Here is your poll:\n" + poll.url)
 
