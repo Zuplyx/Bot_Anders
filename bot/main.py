@@ -1,3 +1,8 @@
+from sys import exit
+from time import sleep
+from urllib.error import URLError
+from urllib.request import urlopen
+
 from discord import Message, TextChannel
 from discord.ext import commands
 
@@ -36,4 +41,21 @@ async def on_ready():
         bot_anders.load_extension(cog)
 
 
-bot_anders.run(token)
+# check if the network is already connected
+loop_value = True
+tries = 0
+while loop_value:
+    try:
+        urlopen("http://google.com")
+        loop_value = False
+    except URLError as e:
+        tries += 1
+        print(e.reason)
+        if tries < 11:
+            print("Retrying in 5 seconds.")
+        else:
+            print("No internet connection available after 10 tries. The program will now terminate.")
+            exit(1)
+    sleep(5)
+else:
+    bot_anders.run(token)
