@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "Bot_Anders"
-version = "0.1.1"
+version = "0.1.2"
 description = "A simple discord bot"
 license = "MIT"
 authors = ["Zuplyx <patrick_98@t-online.de>"]

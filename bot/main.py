@@ -1,3 +1,4 @@
+import asyncio
 from sys import exit
 from time import sleep
 from urllib.error import URLError
@@ -39,6 +40,8 @@ async def on_ready():
     print(f'Logged in as {bot_anders.user.name} - {bot_anders.user.id}')
     for cog in cogs:
         bot_anders.load_extension(cog)
+    # restore reminders
+    asyncio.create_task(bot_anders.get_cog("Time").load_reminders())
 
 
 # check if the network is already connected
@@ -46,13 +49,13 @@ loop_value = True
 tries = 0
 while loop_value:
     try:
-        urlopen("http://google.com")
+        urlopen("https://google.com")
         loop_value = False
     except URLError as e:
         tries += 1
         print(e.reason)
         if tries < 11:
-            print("Retrying in 5 seconds.")
+            print("No internet connection available. Retrying in 5 seconds.")
         else:
             print("No internet connection available after 10 tries. The program will now terminate.")
             exit(1)
