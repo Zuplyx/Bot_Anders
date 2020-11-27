@@ -1,13 +1,13 @@
 # Bot_Anders
 
 A simple discord bot.
-For a list of commands use the `!help` command.
+For a list of commands use the bot's `!help` command.
 
 ## Installation: 
 
 This project uses [Poetry](https://github.com/python-poetry/poetry) for dependency management, so you need it
  to install this bot. <br/>
-Either download the zip or use <br/> `git clone https://github.com/PatrickSchmitt98/Bot_Anders`. <br/>
+Either download the zip or use <br/> `git clone https://github.com/Zuplyx/Bot_Anders`. <br/>
 After this enter the source directory 
 and install the bot and it's dependencies by using `poetry install`.
 
