@@ -1,2 +1,3 @@
 /bot/reminders.csv
 poetry.lock
+/bot/discord_token.txt

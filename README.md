@@ -5,11 +5,10 @@ For a list of commands use the bot's `!help` command.
 
 ## Installation: 
 
-This project uses [Poetry](https://github.com/python-poetry/poetry) for dependency management, so you need it
- to install this bot. <br/>
+This project uses [Poetry](https://github.com/python-poetry/poetry) for dependency management, so you need it to install
+this bot. <br/>
 Either download the zip or use <br/> `git clone https://github.com/Zuplyx/Bot_Anders`. <br/>
-After this enter the source directory 
-and install the bot and it's dependencies by using `poetry install`.
+After this enter the source directory and install the bot, and it's dependencies by using `poetry install`.
 
 ## Starting the bot:
 
