@@ -107,7 +107,4 @@ class Counter(GameElement):
         :return whether the caller has to do something
         """
         super().reveal()
-        if self.counter == 0:
-            return True
-        else:
-            return False
+        return self.counter == 0
