@@ -23,8 +23,7 @@ class GameElement(object):
         """
         if self.isFlagged:
             return "F"  # this element was flagged
-        else:
-            return "*"  # this element has neither been flagged nor revealed
+        return "*"  # this element has neither been flagged nor revealed
 
     @abstractmethod
     def flag(self):
@@ -52,8 +51,7 @@ class Mine(GameElement):
     def __str__(self):
         if self.isRevealed:
             return "X"  # the bomb explodes
-        else:
-            return super().__str__()
+        return super().__str__()
 
     def flag(self):
         """
@@ -64,8 +62,7 @@ class Mine(GameElement):
         super().flag()
         if self.isFlagged:
             return 1
-        else:
-            return -1
+        return -1
 
     def reveal(self):
         """
@@ -87,8 +84,7 @@ class Counter(GameElement):
     def __str__(self):
         if self.isRevealed:
             return str(self.counter)  # show the bomb counter
-        else:
-            return super().__str__()
+        return super().__str__()
 
     def flag(self):
         """
@@ -109,5 +105,4 @@ class Counter(GameElement):
         super().reveal()
         if self.counter == 0:
             return True
-        else:
-            return False
+        return False

@@ -139,8 +139,7 @@ class GameRound(object):
                     self.ended = True
                     self.won = True
                 return self.__str__
-            else:
-                return "You have to reveal at least one field before you can use flag."
+            return "You have to reveal at least one field before you can use flag."
 
     def reveal(self, x, y, nop=False):
         """
@@ -170,8 +169,7 @@ class GameRound(object):
                     self.won = True
             if nop:
                 return ""
-            else:
-                return self.__str__
+            return self.__str__
 
     def reveal_adjacent_counters(self, x, y):
         """
@@ -277,13 +275,13 @@ class Manager(object):
             if message[4:8] == "easy":
                 self.game_round = GameRound(8, 8, 10)
                 return self.game_round.print_empty()
-            elif message[4:8] == "hard":
+            if message[4:8] == "hard":
                 self.game_round = GameRound(30, 16, 99)
                 return self.game_round.print_empty()
-            elif message[4:10] == "medium":
+            if message[4:10] == "medium":
                 self.game_round = GameRound(16, 16, 40)
                 return self.game_round.print_empty()
-            elif message[4:10] == "custom":
+            if message[4:10] == "custom":
                 index_x = message.find("x", 11)
                 index = message.find(",", 11)
                 try:
