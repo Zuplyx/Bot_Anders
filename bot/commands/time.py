@@ -32,7 +32,7 @@ async def wait(secs: float, author: User, msg: str):
     now = datetime.datetime.now()
     await author.send("Here is your reminder for:\n>>> " + msg)
     # delete the reminder from the csv file
-    lines = list()
+    lines = []
     async with lock:
         with open('reminders.csv', mode='r+') as reminders_in:
             csv_reader = csv.reader(reminders_in, delimiter=',', quotechar='"')
@@ -116,7 +116,7 @@ class Time(commands.Cog):
         async with lock:
             with open('reminders.csv', mode='r+') as reminders_in:
                 csv_reader = csv.reader(reminders_in, delimiter=',', quotechar='"')
-                lines = list()
+                lines = []
                 time: datetime
                 now = datetime.datetime.now()
                 for row in csv_reader:
