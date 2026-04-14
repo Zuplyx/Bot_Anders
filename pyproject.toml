@@ -15,7 +15,7 @@ packages = [
 python = "^3.6"
 "discord.py" = "^1.5.1"
 "strawpoll.py" = "^0.2.0"
-numpy = "^1.19.4"
+numpy = "^1.19.5"
 
 
 [build-system]
